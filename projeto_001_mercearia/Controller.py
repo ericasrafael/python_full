@@ -1,0 +1,1 @@
+# Lógica da Estruturação dos Dados: Segurança, verificações, novos dados, remoção de dados

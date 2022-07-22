@@ -1,0 +1,21 @@
+# Software Para Gerenciamento de Mercearia
+
+************** Software para Mercado **************
+
+Especificações do Cliente:
+
+cadastro / alteração / remoção de Categorias de Produtos
+cadastro / alteração / remoção de Produtos
+cadastro / alteração / remoção de Fornecedor
+cadastro / alteração / remoção de Cliente
+cadastro / alteração / remoção de Funcionário
+
+Caixa da Loja
+
+Relatórios de Geral de Vendas
+Relatórios de Vendas por Data
+Relatórios de produtos mais vendidos
+Relatórios de clientes que mais compraram
+
+
+
