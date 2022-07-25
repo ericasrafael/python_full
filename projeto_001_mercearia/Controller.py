@@ -56,10 +56,10 @@ class ConCategoria:
             if len(cat1) == 0:
                 # alterando arquivo na memória RAM, substituindo o parâmetro 'original' por 'alterada'
                 x = list(map(lambda x: Categoria(alterada) if(
-                    x.categoria == x.original) else(x), x))
+                    x.categoria == original) else(x), x))
+                print('Categoria alterada com sucesso!')
             else:
                 print("A categoria para qual deseja alterar já existe!")
-
         else:
             print('A categoria que deseja alterar não existe!')
 
@@ -70,7 +70,7 @@ class ConCategoria:
                 arq.writelines('\n')
 
 
-#a = ConCategoria()
-# a.cadastrar("Frios")
-a = ConCategoria()
-a.remover('Higiene')
+#c = ConCategoria()
+# c.cadastrar("Frios")
+# c.remover('Higiene')
+# c.alterar('Verduras','Carnes')
