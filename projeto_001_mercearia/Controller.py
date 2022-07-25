@@ -23,7 +23,7 @@ class ConCategoria:
         else:
             print('A Categoria  que deseja cadastrar já Existe!')
 
-    def remover(self, categoriaRemove):
+    def remover(self, categoriaRemove):  # remover categoria
         x = DaoCategoria.ler()  # return list
 
         # retorna para cat apenas categoria que seja igual a repassada como parâmetro de ConCategoria().remover()
@@ -45,7 +45,7 @@ class ConCategoria:
                     arq.writelines(i.categoria)
                     arq.writelines('\n')
 
-    def alterar(self, original, alterada):
+    def alterar(self, original, alterada):  # alterando categoria
         x = DaoCategoria.ler()  # return list of categories
 
         # a categoria que deseja alterar deve existir em DeoCategoria
@@ -69,8 +69,15 @@ class ConCategoria:
                 arq.writelines(i.categoria)
                 arq.writelines('\n')
 
+    def visualizar(self):  # printando as categorias existentes
+        categorias = DaoCategoria.ler()
+        if len(categorias) == 0:
+            print('Nenhuma categoria cadastrada!')
+        else:
+            for i in categorias:
+                print(f'Categoria: {i.categoria}')
 
 #c = ConCategoria()
-# c.cadastrar("Frios")
+# c.cadastrar('Frios')
 # c.remover('Higiene')
 # c.alterar('Verduras','Carnes')
