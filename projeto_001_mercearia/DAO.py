@@ -19,21 +19,23 @@ class DaoCategoria:
         with open('categoria.txt', 'r') as arq:
             cls.categoria = arq.readlines()  # return list wich /n in each string
             print(cls.categoria)
-            
-        cls.categoria = list(map(lambda x: x.replace('\n', ''), cls.categoria))  # removendo os \n
+
+        cls.categoria = list(map(lambda x: x.replace(
+            '\n', ''), cls.categoria))  # removendo os \n
         print(cls.categoria)
-        
+
         cat = list()
         for c in cls.categoria:
-            cat.append(Categoria(c)) # pois deve-se retornar a model (instância), cada i corresponde a uma string
+            # pois deve-se retornar a model (instância), cada i corresponde a uma string
+            cat.append(Categoria(c))
         return cat
 
 
-#DaoCategoria.salvar("Frutas")
-#DaoCategoria.salvar("Legumes")
-#DaoCategoria.salvar("Higiene")
-#DaoCategoria.salvar("Verduras")
-#DaoCategoria.ler()
+# DaoCategoria.salvar("Frutas")
+# DaoCategoria.salvar("Legumes")
+# DaoCategoria.salvar("Higiene")
+# DaoCategoria.salvar("Verduras")
+# DaoCategoria.ler()
 
 
 class DaoVenda:
@@ -65,11 +67,12 @@ class DaoVenda:
                 Venda(Produtos(i[0], i[1], i[2]), i[3], i[4], i[5], i[6]))
 
         return vend
-    
+
 #p = Produtos("Banana","3","Frutas")
 #v = Venda(p, "Erica", "Rafael" ,"8")
-#DaoVenda.salvar(v)
-#DaoVenda.ler()
+# DaoVenda.salvar(v)
+# DaoVenda.ler()
+
 
 class DaoEstoque:
     @classmethod
@@ -112,7 +115,8 @@ class DaoFornecedor:
             cls.fornecedores = arq.readlines()
         cls.fornecedores = list(map(lambda x: x.replace(
             '\n', ''), cls.fornecedores))  # removendo os \n
-        cls.fornecedores = list(map(lambda x: x.split(' || '), cls.fornecedores))
+        cls.fornecedores = list(
+            map(lambda x: x.split(' || '), cls.fornecedores))
         forn = list()
         for i in cls.fornecedores:
             forn.append(Fornecedor(i[0], i[1], i[2], i[3]))
@@ -163,7 +167,8 @@ class DaoFuncionario:
             cls.funcionarios = arq.readlines()
         cls.funcionarios = list(map(lambda x: x.replace(
             '\n', ''), cls.funcionarios))  # removendo os \n
-        cls.funcionarios = list(map(lambda x: x.split(' || '), cls.funcionarios))
+        cls.funcionarios = list(
+            map(lambda x: x.split(' || '), cls.funcionarios))
         fun = list()
         for i in cls.funcionarios:
             fun.append(Funcionario(i[0], i[1], i[2], i[3], i[4], i[5]))

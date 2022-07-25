@@ -53,5 +53,5 @@ class Pessoa:
 class Funcionario(Pessoa):
     def __init__(self, clt, nome, contato, cpf, email, endereco):
         self.clt = clt
-        # repassando atrubutos da classe pai para a classe filha
+        # repassando atributos da classe pai para a classe filha
         super(Funcionario, self).__init__(nome, contato, cpf, email, endereco)

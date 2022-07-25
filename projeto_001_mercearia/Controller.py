@@ -38,7 +38,7 @@ class ConCategoria:
                     del x[i]
                     break
             print('Categoria(s) removida(s) com sucesso!')
-
+        # TODO: colocar 'Sem Categoria' em estoque.txt
             with open('categoria.txt', 'w') as arq:
                 for i in x:
                     # reescrevendo no arquivo as categorias restantes em x
@@ -62,7 +62,7 @@ class ConCategoria:
                 print("A categoria para qual deseja alterar já existe!")
         else:
             print('A categoria que deseja alterar não existe!')
-
+        # TODO: alterar em estoque.txt relativamente
         with open('categoria.txt', 'w') as arq:
             # reescrevendo no arquivo as alterações
             for i in x:
@@ -78,6 +78,32 @@ class ConCategoria:
                 print(f'Categoria: {i.categoria}')
 
 #c = ConCategoria()
-# c.cadastrar('Frios')
-# c.remover('Higiene')
-# c.alterar('Verduras','Carnes')
+#c.cadastrar('Frios')
+#c.remover('Higiene')
+#c.alterar('Verduras','Carnes')
+#c.visualizar()
+
+class ConEstoque:
+    def cadastrar(self, nome, preco, categoria, quantidade):
+        e = DaoEstoque.ler() # return list
+        c = DaoCategoria.ler() # return list
+        
+        # veriifcando se categoria repassada como parâmetro existe cadastrada em Categoria.txt
+        
+        h = list(filter(lambda c: c.categoria == categoria, c))
+        est = list(filter(lambda e: e.produto.nome == nome, e))
+        
+        # para cadastrar, o produto não deve já estar cadastrado em Estoque.txt, mas deve conter sua categoria em Categoria.txt
+        if len(h) > 0:
+            if len(est) == 0:
+                produto = Produtos(nome, preco, categoria)
+                DaoEstoque.salvar(produto, quantidade)
+                print('Produto cadastrado com sucesso!')
+            else:
+                print('Este produto já existe no Estoque')
+        else:
+            print('Categoria inexistente!')
+                
+                
+e = ConEstoque()
+e.cadastrar('Uva','6','Frutas',50)
