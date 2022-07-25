@@ -103,7 +103,32 @@ class ConEstoque:
                 print('Este produto já existe no Estoque')
         else:
             print('Categoria inexistente!')
+            
+    def remover(self, nome):
+        e = DaoEstoque.ler()
+        est = list(filter(lambda e: e.produto.nome == nome, e))
+        
+        if len(est) > 0:
+            # iterando por cada produto cadstrado em estoque
+            for i in range(len(e)):
+                if e[i].produto.nome == nome:
+                    del e[i]
+                    break
+            print('Produto removido do Estoque com sucesso!')                
+        else:
+            print('Este produto não existe no Estoque!')
+            
+        with open('Estoque.txt', 'w') as arq:
+            for i in e:
+                arq.writelines(i.produto.nome + " || "
+                           + i.produto.preco + " || "
+                           + i.produto.categoria + " || "
+                           + str(i.quantidade))  # Estoque recebe dado tipo Produto
+                arq.writelines('\n')
+            
+        
                 
                 
 e = ConEstoque()
-e.cadastrar('Uva','6','Frutas',50)
+#e.cadastrar('Uva','6','Frutas',50)
+e.remover('Uva')
