@@ -1,0 +1,3 @@
+Tangerina || 4 || Frutas || 50
+Banana || 8 || Frutas || 40
+Laranja || 3 || Frutas || 70

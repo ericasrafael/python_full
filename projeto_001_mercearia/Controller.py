@@ -7,7 +7,6 @@ from datetime import datetime
 
 # métodos de instância
 
-
 class ConCategoria:
     def cadastrar(self, novaCategoria):  # cadastrar categoria
         existe = False
@@ -79,6 +78,11 @@ class ConCategoria:
 
 #c = ConCategoria()
 #c.cadastrar('Frios')
+#c.cadastrar('Verduras')
+#c.cadastrar('Frutas')
+#c.cadastrar('Laticinios')
+#c.cadastrar('Legumes')
+#c.cadastrar('Higiene')
 #c.remover('Higiene')
 #c.alterar('Verduras','Carnes')
 #c.visualizar()
@@ -125,10 +129,41 @@ class ConEstoque:
                            + i.produto.categoria + " || "
                            + str(i.quantidade))  # Estoque recebe dado tipo Produto
                 arq.writelines('\n')
-            
+                
+    def alterar(self, nomeOriginal, nomeNovo, precoNovo, categoriaNova, quantidadeNova):
+        e = DaoEstoque.ler()
+        c = DaoCategoria.ler()
         
+        h = list(filter(lambda c: c.categoria == categoriaNova, c))
+        
+        if len(h) > 0 :
+            est = list(filter(lambda e: e.produto.nome == nomeOriginal, e))
+            if len(est) > 0:
+                est = list(filter(lambda e: e.produto.nome == nomeNovo, e))
+                if len(est) == 0:
+                    # alterando e, que é a lista de produtos cadastrados retornados de DaoEstoque.ler()
+                    e = list(map(lambda e: Estoque(Produtos(nomeNovo, precoNovo, categoriaNova),quantidadeNova) if(e.produto.nome == nomeOriginal) else(e), e))
+                    print('Produto alterado no Estoque!')
+                else:
+                    print('O produto para qual deseja alterar já está cadastrado!')          
+            else:
+                print('O produto o qual deseja alterar não está cadastrado!')
                 
-                
+            with open('estoque.txt','w') as arq:
+                for i in e:
+                    arq.writelines(i.produto.nome + " || "
+                           + i.produto.preco + " || "
+                           + i.produto.categoria + " || "
+                           + str(i.quantidade))  # Estoque recebe dado tipo Produto
+                    arq.writelines('\n')                
+        else:
+            print('A categoria repassada não está cadastrada!')
+                    
+    
+               
 e = ConEstoque()
 #e.cadastrar('Uva','6','Frutas',50)
-e.remover('Uva')
+#e.cadastrar('Banana','8','Frutas',40)
+#e.cadastrar('Laranja','3','Frutas',70)
+#e.remover('Uva')
+e.alterar('Uva','Tangerina','4','Frutas',50)
