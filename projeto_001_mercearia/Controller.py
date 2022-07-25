@@ -158,12 +158,26 @@ class ConEstoque:
                     arq.writelines('\n')                
         else:
             print('A categoria repassada não está cadastrada!')
+            
+    def visualizar(self):
+        estoque = DaoEstoque.ler()
+        if len(estoque) == 0:
+            print('Estoque vazio!')
+        else:
+            print('===========Produtos===========')
+            for i in estoque:                
+                print(f'Nome: {i.produto.nome}\n'
+                      f'Preco: {i.produto.preco}\n'
+                      f'Categoria: {i.produto.categoria}\n'
+                      f'Quantidade: {i.quantidade}\n')
+                print('==============================')
                     
     
                
-e = ConEstoque()
+#e = ConEstoque()
 #e.cadastrar('Uva','6','Frutas',50)
 #e.cadastrar('Banana','8','Frutas',40)
 #e.cadastrar('Laranja','3','Frutas',70)
 #e.remover('Uva')
-e.alterar('Uva','Tangerina','4','Frutas',50)
+#e.alterar('Uva','Tangerina','4','Frutas',50)
+#e.visualizar()
