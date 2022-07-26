@@ -181,3 +181,51 @@ class ConEstoque:
 #e.remover('Uva')
 #e.alterar('Uva','Tangerina','4','Frutas',50)
 #e.visualizar()
+
+class ConVenda:
+    def cadastrar(self, nomeProduto, vendedor, cliente, quantidadeVendida):
+        e = DaoEstoque.ler()  # precisa existir produto no estoque
+        temp = list()
+        existe = False
+        quantidade = False  # quantidade vendida precisa ser inferior ou igual a quantidade em estoque
+        for i in e:
+            if existe == False:
+                if i.produto.nome == nomeProduto:
+                    existe = True  # contém o produto em estoque
+                    if i.quantidade >= quantidadeVendida:
+                        quantidade = True
+                        
+                        # atualizando a quantidade do produto em estoque após a venda
+                        i.quantidade = int(i.quantidade) - int(quantidadeVendida)
+                        
+                        # cadastrando a venda, com o produto vendido ( passou por todos os if's )
+                        vendido = Venda(Produtos(i.produto.nome, i.produto.preco, i.produto.categoria), vendedor, cliente, quantidadeVendida)
+                        
+                        # calculando o valor da venda
+                        valorDaCompra = int(quantidadeVendida) * float(i.produto.preco)
+                        
+                        DaoVenda.salvar(vendido)
+                        
+            temp.append([Produtos(i.produto.nome, i.produto.preco, i.produto.categoria),i.quantidade])
+            
+            arq = open('estoque.txt','w')
+            arq.write('') # limpando arquivo
+            
+            for i in temp:
+                with open('estoque.txt','a') as arq:
+                    arq.writelines(i[0].nome + ' || ' + i[0].preco + ' || ' + i[0].categoria + ' || ' + str(i[1]))
+                    arq.writelines('\n')
+            
+        # colocando na View
+        if existe == False:
+            print('Este produto nao esta disponivel em Estoque!')
+            return None
+        elif not quantidade:
+            print('Nao ha quantidade suficiente referente a este produto no Estoque para efetuar a venda!')
+            return None
+        else:
+            print('Venda realizada com sucesso!')
+            return valorDaCompra
+        
+v = ConVenda()
+v.cadastrar('Laranja','Erica','Rafael',10)     
