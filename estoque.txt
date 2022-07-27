@@ -1,3 +1,4 @@
-Tangerina || 4 || Frutas || 50
-Banana || 8 || Frutas || 40
-Laranja || 3 || Frutas || 60
+Uva || 6 || Frutas || 100
+Banana || 8 || Frutas || 100
+Laranja || 3 || Frutas || 100
+Tangerina || 4 || Frutas || 100

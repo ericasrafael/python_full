@@ -7,6 +7,7 @@ from datetime import datetime
 
 # métodos de instância
 
+
 class ConCategoria:
     def cadastrar(self, novaCategoria):  # cadastrar categoria
         existe = False
@@ -77,26 +78,27 @@ class ConCategoria:
                 print(f'Categoria: {i.categoria}')
 
 #c = ConCategoria()
-#c.cadastrar('Frios')
-#c.cadastrar('Verduras')
-#c.cadastrar('Frutas')
-#c.cadastrar('Laticinios')
-#c.cadastrar('Legumes')
-#c.cadastrar('Higiene')
-#c.remover('Higiene')
-#c.alterar('Verduras','Carnes')
-#c.visualizar()
+# c.cadastrar('Frios')
+# c.cadastrar('Verduras')
+# c.cadastrar('Frutas')
+# c.cadastrar('Laticinios')
+# c.cadastrar('Legumes')
+# c.cadastrar('Higiene')
+# c.remover('Higiene')
+# c.alterar('Verduras','Carnes')
+# c.visualizar()
+
 
 class ConEstoque:
     def cadastrar(self, nome, preco, categoria, quantidade):
-        e = DaoEstoque.ler() # return list
-        c = DaoCategoria.ler() # return list
-        
+        e = DaoEstoque.ler()  # return list
+        c = DaoCategoria.ler()  # return list
+
         # veriifcando se categoria repassada como parâmetro existe cadastrada em Categoria.txt
-        
+
         h = list(filter(lambda c: c.categoria == categoria, c))
         est = list(filter(lambda e: e.produto.nome == nome, e))
-        
+
         # para cadastrar, o produto não deve já estar cadastrado em Estoque.txt, mas deve conter sua categoria em Categoria.txt
         if len(h) > 0:
             if len(est) == 0:
@@ -107,125 +109,164 @@ class ConEstoque:
                 print('Este produto já existe no Estoque')
         else:
             print('Categoria inexistente!')
-            
+
     def remover(self, nome):
         e = DaoEstoque.ler()
         est = list(filter(lambda e: e.produto.nome == nome, e))
-        
+
         if len(est) > 0:
             # iterando por cada produto cadstrado em estoque
             for i in range(len(e)):
                 if e[i].produto.nome == nome:
                     del e[i]
                     break
-            print('Produto removido do Estoque com sucesso!')                
+            print('Produto removido do Estoque com sucesso!')
         else:
             print('Este produto não existe no Estoque!')
-            
+
         with open('Estoque.txt', 'w') as arq:
             for i in e:
                 arq.writelines(i.produto.nome + " || "
-                           + i.produto.preco + " || "
-                           + i.produto.categoria + " || "
-                           + str(i.quantidade))  # Estoque recebe dado tipo Produto
+                               + i.produto.preco + " || "
+                               + i.produto.categoria + " || "
+                               + str(i.quantidade))  # Estoque recebe dado tipo Produto
                 arq.writelines('\n')
-                
+
     def alterar(self, nomeOriginal, nomeNovo, precoNovo, categoriaNova, quantidadeNova):
         e = DaoEstoque.ler()
         c = DaoCategoria.ler()
-        
+
         h = list(filter(lambda c: c.categoria == categoriaNova, c))
-        
-        if len(h) > 0 :
+
+        if len(h) > 0:
             est = list(filter(lambda e: e.produto.nome == nomeOriginal, e))
             if len(est) > 0:
                 est = list(filter(lambda e: e.produto.nome == nomeNovo, e))
                 if len(est) == 0:
                     # alterando e, que é a lista de produtos cadastrados retornados de DaoEstoque.ler()
-                    e = list(map(lambda e: Estoque(Produtos(nomeNovo, precoNovo, categoriaNova),quantidadeNova) if(e.produto.nome == nomeOriginal) else(e), e))
+                    e = list(map(lambda e: Estoque(Produtos(nomeNovo, precoNovo, categoriaNova), quantidadeNova) if(
+                        e.produto.nome == nomeOriginal) else(e), e))
                     print('Produto alterado no Estoque!')
                 else:
-                    print('O produto para qual deseja alterar já está cadastrado!')          
+                    print('O produto para qual deseja alterar já está cadastrado!')
             else:
                 print('O produto o qual deseja alterar não está cadastrado!')
-                
-            with open('estoque.txt','w') as arq:
+
+            with open('estoque.txt', 'w') as arq:
                 for i in e:
                     arq.writelines(i.produto.nome + " || "
-                           + i.produto.preco + " || "
-                           + i.produto.categoria + " || "
-                           + str(i.quantidade))  # Estoque recebe dado tipo Produto
-                    arq.writelines('\n')                
+                                   + i.produto.preco + " || "
+                                   + i.produto.categoria + " || "
+                                   + str(i.quantidade))  # Estoque recebe dado tipo Produto
+                    arq.writelines('\n')
         else:
             print('A categoria repassada não está cadastrada!')
-            
+
     def visualizar(self):
         estoque = DaoEstoque.ler()
         if len(estoque) == 0:
             print('Estoque vazio!')
         else:
             print('===========Produtos===========')
-            for i in estoque:                
+            for i in estoque:
                 print(f'Nome: {i.produto.nome}\n'
                       f'Preco: {i.produto.preco}\n'
                       f'Categoria: {i.produto.categoria}\n'
                       f'Quantidade: {i.quantidade}\n')
                 print('==============================')
-                    
-    
-               
+
+
 #e = ConEstoque()
-#e.cadastrar('Uva','6','Frutas',50)
-#e.cadastrar('Banana','8','Frutas',40)
-#e.cadastrar('Laranja','3','Frutas',70)
-#e.remover('Uva')
-#e.alterar('Uva','Tangerina','4','Frutas',50)
-#e.visualizar()
+# e.cadastrar('Uva','6','Frutas',100)
+# e.cadastrar('Banana','8','Frutas',40)
+# e.cadastrar('Laranja','3','Frutas',70)
+#e.cadastrar('Tangerina','4','Frutas',50)
+# e.remover('Uva')
+# e.alterar('Uva','Tangerina','4','Frutas',50)
+# e.visualizar()
 
 class ConVenda:
     def cadastrar(self, nomeProduto, vendedor, cliente, quantidadeVendida):
         e = DaoEstoque.ler()  # precisa existir produto no estoque
         temp = list()
         existe = False
-        quantidade = False  # quantidade vendida precisa ser inferior ou igual a quantidade em estoque
+        # quantidade vendida precisa ser inferior ou igual a quantidade em estoque
+        quantidade = False
         for i in e:
             if existe == False:
                 if i.produto.nome == nomeProduto:
                     existe = True  # contém o produto em estoque
                     if i.quantidade >= quantidadeVendida:
                         quantidade = True
-                        
+
                         # atualizando a quantidade do produto em estoque após a venda
                         i.quantidade = int(i.quantidade) - int(quantidadeVendida)
-                        
+
                         # cadastrando a venda, com o produto vendido ( passou por todos os if's )
-                        vendido = Venda(Produtos(i.produto.nome, i.produto.preco, i.produto.categoria), vendedor, cliente, quantidadeVendida)
-                        
+                        vendido = Venda(Produtos(i.produto.nome, i.produto.preco,
+                                        i.produto.categoria), vendedor, cliente, quantidadeVendida)
+
                         # calculando o valor da venda
-                        valorDaCompra = int(quantidadeVendida) * float(i.produto.preco)
-                        
+                        valorDaCompra = int(quantidadeVendida) * int(i.produto.preco)
+
                         DaoVenda.salvar(vendido)
                         
-            temp.append([Produtos(i.produto.nome, i.produto.preco, i.produto.categoria),i.quantidade])
-            
-            arq = open('estoque.txt','w')
-            arq.write('') # limpando arquivo
-            
-            for i in temp:
-                with open('estoque.txt','a') as arq:
-                    arq.writelines(i[0].nome + ' || ' + i[0].preco + ' || ' + i[0].categoria + ' || ' + str(i[1]))
-                    arq.writelines('\n')
-            
+            # contém todos os valores de estoque, somente com quantidade do produto vendido atualizada
+            temp.append(Estoque(Produtos(i.produto.nome, i.produto.preco, i.produto.categoria), i.quantidade))
+
+        arq = open('estoque.txt', 'w')
+        arq.write('')  # limpando arquivo
+
+        for i in temp:
+            with open('estoque.txt', 'a') as arq:
+                arq.writelines(i.produto.nome + ' || ' + i.produto.preco + ' || ' + i.produto.categoria + ' || ' + str(i.quantidade))
+                arq.writelines('\n')
+
         # colocando na View
         if existe == False:
             print('Este produto nao esta disponivel em Estoque!')
             return None
         elif not quantidade:
-            print('Nao ha quantidade suficiente referente a este produto no Estoque para efetuar a venda!')
+            print(
+                'Nao ha quantidade suficiente referente a este produto no Estoque para efetuar a venda!')
             return None
         else:
             print('Venda realizada com sucesso!')
             return valorDaCompra
-        
-v = ConVenda()
-v.cadastrar('Laranja','Erica','Rafael',10)     
+
+    def relatorioVendas(self):
+        vendas = DaoVenda.ler()
+        produtos = list()
+      
+        # percorrendo cada venda cadastrada
+        for i in vendas:
+            nome = i.item_vendido.nome
+            quantidade = i.quantidade_vendida
+            # verificando se um produto foi vendido mais de uma vez, para poder somar as quantidades dentro de produtos list
+            tamanho = list(filter(lambda x: x['produto'] == nome, produtos))
+            
+            if len(tamanho) > 0:
+                produtos = list(map(lambda x: {
+                                'produto': nome, 'quantidade': int(x['quantidade']) + int(quantidade)} if(x['produto'] == nome) else(x), produtos))
+            else:
+                produtos.append({'produto': nome, 'quantidade': int(quantidade)})
+                
+        # ordenando pela quantidade de itens vendidos daquele produto      
+        ordenado = sorted(produtos, key=lambda x: x['quantidade'], reverse=True)
+            
+        print('Produtos mais vendidos:')
+        a = 1
+        for i in ordenado:
+            print(f"============ Produto {a} ============")
+            print(f" Produto: {i['produto']}\n"
+                    f" Quantidade: {i['quantidade']}\n")
+            a += 1
+                
+
+# v = ConVenda()
+# v.cadastrar('Laranja','Erica','Rafael',10)
+# v.cadastrar('Tangerina','Erica','Rafael',10)
+# v.cadastrar('Tangerina','Natalia','Joao',10)
+# v.cadastrar('Banana','Erica','Rafael',10)
+# v.cadastrar('Uva','Natalia','Rafael',10)
+# v.relatorioVendas()

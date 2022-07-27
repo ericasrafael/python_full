@@ -1,5 +1,6 @@
+# INCLUSÃO E ACESSO DE DADOS NOS ARQUIVOS PERSISTENTES
 # Acesso aos Arquivos ( dados persistentes ) de armazenamento
-# Armazena novos dados
+# Armazena novos dados ( salvar ), e acesso aos dados já cadastrados ( ler )
 # 002
 
 from Models import *
@@ -56,22 +57,19 @@ class DaoVenda:
     def ler(cls):
         with open('venda.txt', 'r') as arq:
             cls.venda = arq.readlines()
-            print(cls.venda)
         cls.venda = list(map(lambda x: x.replace(
             '\n', ''), cls.venda))  # removendo os \n
         cls.venda = list(map(lambda x: x.split(' || '), cls.venda))
-        print(cls.venda)
         vend = list()
         for i in cls.venda:
             vend.append(
                 Venda(Produtos(i[0], i[1], i[2]), i[3], i[4], i[5], i[6]))
-
         return vend
 
 #p = Produtos("Banana","3","Frutas")
 #v = Venda(p, "Erica", "Rafael" ,"8")
-# DaoVenda.salvar(v)
-# DaoVenda.ler()
+#DaoVenda.salvar(v)
+#DaoVenda.ler()
 
 
 class DaoEstoque:
