@@ -24,7 +24,7 @@ class Estoque:
 
 class Venda:
     # por padrão, pega data do sistema operacional cada vez que Venda() é chamada
-    def __init__(self, item_vendido: Produtos, vendedor, cliente, quantidade_vendida, data=datetime.now().strftime("%d/%m/%Y %H:%M:%S")):
+    def __init__(self, item_vendido: Produtos, vendedor, cliente, quantidade_vendida, data=datetime.now().strftime("%d/%m/%Y")):
         self.item_vendido = item_vendido
         self.vendedor = vendedor
         self.cliente = cliente

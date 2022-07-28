@@ -1,8 +1,5 @@
-Tangerina || 4 || Frutas || Natalia || Rafael || 10 || 27/07/2022 18:09:51
-Tangerina || 4 || Frutas || Natalia || Rafael || 10 || 27/07/2022 18:11:16
-Uva || 6 || Frutas || Natalia || Rafael || 10 || 27/07/2022 20:16:52
-Laranja || 3 || Frutas || Erica || Rafael || 10 || 27/07/2022 20:25:12
-Tangerina || 4 || Frutas || Erica || Rafael || 10 || 27/07/2022 20:25:12
-Tangerina || 4 || Frutas || Natalia || Joao || 10 || 27/07/2022 20:25:12
-Banana || 8 || Frutas || Erica || Rafael || 10 || 27/07/2022 20:25:12
-Uva || 6 || Frutas || Natalia || Rafael || 10 || 27/07/2022 20:25:12
+Laranja || 3 || Frutas || Erica || Rafael || 10 || 20/07/2022
+Tangerina || 4 || Frutas || Erica || Rafael || 10 || 22/07/2022
+Tangerina || 4 || Frutas || Natalia || Joao || 10 || 22/07/2022
+Banana || 8 || Frutas || Erica || Rafael || 10 || 25/07/2022
+Uva || 6 || Frutas || Natalia || Rafael || 10 || 27/07/2022

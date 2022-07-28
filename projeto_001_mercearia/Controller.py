@@ -176,11 +176,11 @@ class ConEstoque:
                 print('==============================')
 
 
-#e = ConEstoque()
+# e = ConEstoque()
 # e.cadastrar('Uva','6','Frutas',100)
 # e.cadastrar('Banana','8','Frutas',40)
 # e.cadastrar('Laranja','3','Frutas',70)
-#e.cadastrar('Tangerina','4','Frutas',50)
+# e.cadastrar('Tangerina','4','Frutas',50)
 # e.remover('Uva')
 # e.alterar('Uva','Tangerina','4','Frutas',50)
 # e.visualizar()
@@ -207,7 +207,7 @@ class ConVenda:
                                         i.produto.categoria), vendedor, cliente, quantidadeVendida)
 
                         # calculando o valor da venda
-                        valorDaCompra = int(quantidadeVendida) * int(i.produto.preco)
+                        valorDaCompra = int(quantidadeVendida) * float(i.produto.preco)
 
                         DaoVenda.salvar(vendido)
                         
@@ -234,6 +234,7 @@ class ConVenda:
             print('Venda realizada com sucesso!')
             return valorDaCompra
 
+    # Relatorio de produtos mais vendidos
     def relatorioVendas(self):
         vendas = DaoVenda.ler()
         produtos = list()
@@ -262,6 +263,29 @@ class ConVenda:
                     f" Quantidade: {i['quantidade']}\n")
             a += 1
                 
+    def visualizar(self, inicio, termino):
+        vendas = DaoVenda.ler()
+        dataIninio = datetime.strptime(inicio, '%d/%m/%Y')
+        dataFim = datetime.strptime(termino, '%d/%m/%Y')
+        
+        vendasSelecionadas = list(filter(lambda x: datetime.strptime(x.data, '%d/%m/%Y') >= dataIninio 
+                                         and datetime.strptime(x.data, '%d/%m/%Y') <= dataFim, vendas ))
+        
+        
+        total = 0
+        for i in vendasSelecionadas:
+            print('=======================================')
+            print(f"Nome: {i.item_vendido.nome}\n"
+                  f"Categoria: {i.item_vendido.categoria}\n"
+                  f"Data da Venda: {i.data}\n"
+                  f"Quantidade Vendida: {i.quantidade_vendida}\n"
+                  f"Cliente: {i.cliente}\n"
+                  f"Vendedor: {i.vendedor}")
+            
+            total += float(i.item_vendido.preco) * int(i.quantidade_vendida)
+            
+        print(f"Total vendido foi de: R${total}")
+        
 
 # v = ConVenda()
 # v.cadastrar('Laranja','Erica','Rafael',10)
@@ -270,3 +294,7 @@ class ConVenda:
 # v.cadastrar('Banana','Erica','Rafael',10)
 # v.cadastrar('Uva','Natalia','Rafael',10)
 # v.relatorioVendas()
+# v.visualizar('20/07/2022','25/07/2022')
+
+class ConFornecedor:
+    def 
