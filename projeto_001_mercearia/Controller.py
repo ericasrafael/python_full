@@ -297,4 +297,127 @@ class ConVenda:
 # v.visualizar('20/07/2022','25/07/2022')
 
 class ConFornecedor:
-    def 
+    def cadastrar(self, empresa, cnpj, contato, categoria):
+        f = DaoFornecedor.ler()
+        # atributos que não podem se repetir entre os cadastros dos fornecedores
+        listaCnpj = list(filter(lambda x: x.cnpj == cnpj, f))
+        listaContato = list(filter(lambda x: x.contato == contato, f))
+        
+        if len(listaCnpj) > 0:
+            print('Este CNPJ já está cadastrado!')
+        elif len(listaContato) > 0:
+            print('Este telefone já está cadastrado!')
+        else:
+            if len(cnpj) == 14 and (len(contato) <= 11 and len(contato) >= 10):
+                DaoFornecedor.salvar(Fornecedor(empresa, cnpj, contato, categoria))
+                print('Fornecedor cadastrado com sucesso!')
+            else:
+                print('Telefone e/ou CNPJ inválido(s)!')
+                
+    def alterar(self, empresaOriginal, empresaAlterado, cnpjAlterado, contatoAlterado, categoriaAlterada):
+        f = DaoFornecedor.ler()
+        # atributos que não podem se repetir em Fornecedores() 
+        empresaCadastradas = list(filter(lambda x : x.empresa == empresaOriginal, f))
+            
+        # se o nome que deseja alterar estiver cadastrado
+        if len(empresaCadastradas) > 0 :
+            # verificar se cnpj que deseja alterar já está cadstrado
+            cnpjCadastrados = list(filter(lambda x : x.cnpj == cnpjAlterado, f))
+            if len(cnpjCadastrados) == 0:
+                 # modificando os dados na memória RAM
+                x = list(map(lambda x: Fornecedor(empresaAlterado, cnpjAlterado, contatoAlterado, categoriaAlterada 
+                                                   if(x.empresa == empresaOriginal) else(x), f)))
+            else:
+                print('O CNPJ para o qual deseja alterar já está cadastrado!')
+        else:
+            print('O fornecedor que deseja alterar não está cadastrado!')
+            
+        # modificando os dados no disco rígido
+        with open('fornecedores.txt', 'w') as arq:
+            for i in x:
+                arq.writelines(i.empresa + " || " + i.cnpj + " || " + i.contato + " || " + i.categoria)  # Estoque recebe dado tipo Produto
+                arq.writelines('\n')
+            print('Fornecedor alterado com sucesso!')
+            
+            
+    def remover(self, empresaRemove):  # remover categoria
+        f = DaoFornecedor.ler()  # return list
+
+        # retorna para cat apenas categoria que seja igual a repassada como parâmetro de ConCategoria().remover()
+        emp = list(filter(lambda x: x.empresa == empresaRemove, f))
+
+        if len(emp) > 0:
+            for i in range(len(f)):
+                if f[i].empresa == empresaRemove:  # removendo da memória RAM
+                    del f[i]
+                    break
+                else:
+                    print('Este fornecedor não está cadastrado!') 
+                    return None         
+            # modificando os dados no disco rígido
+            with open('fornecedores.txt', 'w') as arq:
+                arq.writelines(i.empresa + " || " + i.cnpj + " || " + i.contato + " || " + i.categoria)  # Estoque recebe dado tipo Produto
+                arq.writelines('\n')
+            print('Fornecedor removido com sucesso!')
+            
+    def visualizar(self):  # printando as categorias existentes
+        fornecedores = DaoFornecedor.ler()
+        if len(fornecedores) == 0:
+            print('Não ha fornecedores cadastrados!')
+        else:
+            for i in fornecedores:
+                print('========= FORNECEDORES =========')
+                print(f'Categoria fornecida: {i.categoria}\n'
+                      f'Nome do fornecedor: {i.empresa}\n'
+                      f'Contato: {i.contato}\n'
+                      f'CNPJ: {i.cnpj}\n')
+                
+class ConCliente:
+    def cadastrar(self, nome, contato, cpf, email, endereco):
+        c = DaoPessoa.ler()
+        # atributos que não podem se repetir entre os cadastros dos fornecedores
+        cpfCadastrados = list(filter(lambda x: x.cpf == cpf, c))
+        
+        if len(cpfCadastrados) > 0:
+            print('Este CPF já está cadastrado!')
+        else:
+            if len(cpf) == 11 and (len(contato) <= 11 and len(contato) >= 10):
+                DaoPessoa.salvar(Pessoa(nome, contato, cpf, email, endereco))
+                print('Cliente cadastrado com sucesso!')
+            else:
+                print('Telefone e/ou CPF inválido(s)!')
+                
+    def alterar(self, nomeOriginal, nomeAlterado, cpfAlterado, contatoAlterado, emailAlterado, enderecoAlterado):
+        c = DaoPessoa.ler()
+        # atributos que não podem se repetir em Fornecedores() 
+        clientesCadastrados = list(filter(lambda x : x.nome == nomeOriginal, c))           
+        # se o nome que deseja alterar estiver cadastrado
+        if len(clientesCadastrados) > 0 :
+            # verificar se cpf que deseja alterar já está cadstrado
+            cpfCadastrados = list(filter(lambda x : x.cpf == cpfAlterado, c))
+            if len(cpfCadastrados) == 0:
+                 # modificando os dados na memória RAM
+                x = list(map(lambda x: Pessoa(nomeAlterado, contatoAlterado, cpfAlterado, emailAlterado, enderecoAlterado)
+                                                   if(x.nome == nomeOriginal) else(x), c))
+            else:
+                print('O CPF para o qual deseja alterar já está cadastrado!')
+        else:
+            print('O cliente que deseja alterar não está cadastrado!')
+            
+        # modificando os dados no disco rígido
+        with open('clientes.txt', 'w') as arq:
+            for i in x:
+                arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " + i.email + " || " + i.endereco)  # Estoque recebe dado tipo Produto
+                arq.writelines('\n')
+            print('Cliente alterado com sucesso!')
+    
+            
+           
+        
+        
+                
+                
+            
+            
+            
+            
