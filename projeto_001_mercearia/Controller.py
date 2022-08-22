@@ -200,26 +200,30 @@ class ConVenda:
                         quantidade = True
 
                         # atualizando a quantidade do produto em estoque após a venda
-                        i.quantidade = int(i.quantidade) - int(quantidadeVendida)
+                        i.quantidade = int(i.quantidade) - \
+                            int(quantidadeVendida)
 
                         # cadastrando a venda, com o produto vendido ( passou por todos os if's )
                         vendido = Venda(Produtos(i.produto.nome, i.produto.preco,
                                         i.produto.categoria), vendedor, cliente, quantidadeVendida)
 
                         # calculando o valor da venda
-                        valorDaCompra = int(quantidadeVendida) * float(i.produto.preco)
+                        valorDaCompra = int(
+                            quantidadeVendida) * float(i.produto.preco)
 
                         DaoVenda.salvar(vendido)
-                        
+
             # contém todos os valores de estoque, somente com quantidade do produto vendido atualizada
-            temp.append(Estoque(Produtos(i.produto.nome, i.produto.preco, i.produto.categoria), i.quantidade))
+            temp.append(Estoque(Produtos(i.produto.nome,
+                        i.produto.preco, i.produto.categoria), i.quantidade))
 
         arq = open('estoque.txt', 'w')
         arq.write('')  # limpando arquivo
 
         for i in temp:
             with open('estoque.txt', 'a') as arq:
-                arq.writelines(i.produto.nome + ' || ' + i.produto.preco + ' || ' + i.produto.categoria + ' || ' + str(i.quantidade))
+                arq.writelines(i.produto.nome + ' || ' + i.produto.preco +
+                               ' || ' + i.produto.categoria + ' || ' + str(i.quantidade))
                 arq.writelines('\n')
 
         # colocando na View
@@ -238,40 +242,41 @@ class ConVenda:
     def relatorioVendas(self):
         vendas = DaoVenda.ler()
         produtos = list()
-      
+
         # percorrendo cada venda cadastrada
         for i in vendas:
             nome = i.item_vendido.nome
             quantidade = i.quantidade_vendida
             # verificando se um produto foi vendido mais de uma vez, para poder somar as quantidades dentro de produtos list
             tamanho = list(filter(lambda x: x['produto'] == nome, produtos))
-            
+
             if len(tamanho) > 0:
                 produtos = list(map(lambda x: {
                                 'produto': nome, 'quantidade': int(x['quantidade']) + int(quantidade)} if(x['produto'] == nome) else(x), produtos))
             else:
-                produtos.append({'produto': nome, 'quantidade': int(quantidade)})
-                
-        # ordenando pela quantidade de itens vendidos daquele produto      
-        ordenado = sorted(produtos, key=lambda x: x['quantidade'], reverse=True)
-            
+                produtos.append(
+                    {'produto': nome, 'quantidade': int(quantidade)})
+
+        # ordenando pela quantidade de itens vendidos daquele produto
+        ordenado = sorted(
+            produtos, key=lambda x: x['quantidade'], reverse=True)
+
         print('Produtos mais vendidos:')
         a = 1
         for i in ordenado:
             print(f"============ Produto {a} ============")
             print(f" Produto: {i['produto']}\n"
-                    f" Quantidade: {i['quantidade']}\n")
+                  f" Quantidade: {i['quantidade']}\n")
             a += 1
-                
+
     def visualizar(self, inicio, termino):
         vendas = DaoVenda.ler()
         dataIninio = datetime.strptime(inicio, '%d/%m/%Y')
         dataFim = datetime.strptime(termino, '%d/%m/%Y')
-        
-        vendasSelecionadas = list(filter(lambda x: datetime.strptime(x.data, '%d/%m/%Y') >= dataIninio 
-                                         and datetime.strptime(x.data, '%d/%m/%Y') <= dataFim, vendas ))
-        
-        
+
+        vendasSelecionadas = list(filter(lambda x: datetime.strptime(x.data, '%d/%m/%Y') >= dataIninio
+                                         and datetime.strptime(x.data, '%d/%m/%Y') <= dataFim, vendas))
+
         total = 0
         for i in vendasSelecionadas:
             print('=======================================')
@@ -281,11 +286,11 @@ class ConVenda:
                   f"Quantidade Vendida: {i.quantidade_vendida}\n"
                   f"Cliente: {i.cliente}\n"
                   f"Vendedor: {i.vendedor}")
-            
+
             total += float(i.item_vendido.preco) * int(i.quantidade_vendida)
-            
+
         print(f"Total vendido foi de: R${total}")
-        
+
 
 # v = ConVenda()
 # v.cadastrar('Laranja','Erica','Rafael',10)
@@ -302,48 +307,50 @@ class ConFornecedor:
         # atributos que não podem se repetir entre os cadastros dos fornecedores
         listaCnpj = list(filter(lambda x: x.cnpj == cnpj, f))
         listaContato = list(filter(lambda x: x.contato == contato, f))
-        
+
         if len(listaCnpj) > 0:
             print('Este CNPJ já está cadastrado!')
         elif len(listaContato) > 0:
             print('Este telefone já está cadastrado!')
         else:
             if len(cnpj) == 14 and (len(contato) <= 11 and len(contato) >= 10):
-                DaoFornecedor.salvar(Fornecedor(empresa, cnpj, contato, categoria))
+                DaoFornecedor.salvar(Fornecedor(
+                    empresa, cnpj, contato, categoria))
                 print('Fornecedor cadastrado com sucesso!')
             else:
                 print('Telefone e/ou CNPJ inválido(s)!')
-                
+
     def alterar(self, empresaOriginal, empresaAlterado, cnpjAlterado, contatoAlterado, categoriaAlterada):
         f = DaoFornecedor.ler()
-        # atributos que não podem se repetir em Fornecedores() 
-        empresaCadastradas = list(filter(lambda x : x.empresa == empresaOriginal, f))
-            
+        # atributos que não podem se repetir em Fornecedores()
+        empresaCadastradas = list(
+            filter(lambda x: x.empresa == empresaOriginal, f))
+
         # se o nome que deseja alterar estiver cadastrado
-        if len(empresaCadastradas) > 0 :
+        if len(empresaCadastradas) > 0:
             # verificar se cnpj que deseja alterar já está cadstrado
-            cnpjCadastrados = list(filter(lambda x : x.cnpj == cnpjAlterado, f))
+            cnpjCadastrados = list(filter(lambda x: x.cnpj == cnpjAlterado, f))
             if len(cnpjCadastrados) == 0:
-                 # modificando os dados na memória RAM
-                x = list(map(lambda x: Fornecedor(empresaAlterado, cnpjAlterado, contatoAlterado, categoriaAlterada 
-                                                   if(x.empresa == empresaOriginal) else(x), f)))
+                # modificando os dados na memória RAM
+                x = list(map(lambda x: Fornecedor(empresaAlterado, cnpjAlterado, contatoAlterado, categoriaAlterada
+                                                  if(x.empresa == empresaOriginal) else(x), f)))
             else:
                 print('O CNPJ para o qual deseja alterar já está cadastrado!')
         else:
             print('O fornecedor que deseja alterar não está cadastrado!')
-            
+
         # modificando os dados no disco rígido
         with open('fornecedores.txt', 'w') as arq:
             for i in x:
-                arq.writelines(i.empresa + " || " + i.cnpj + " || " + i.contato + " || " + i.categoria)  # Estoque recebe dado tipo Produto
+                # Estoque recebe dado tipo Produto
+                arq.writelines(i.empresa + " || " + i.cnpj +
+                               " || " + i.contato + " || " + i.categoria)
                 arq.writelines('\n')
             print('Fornecedor alterado com sucesso!')
-            
-            
+
     def remover(self, empresaRemove):  # remover categoria
         f = DaoFornecedor.ler()  # return list
 
-        # retorna para cat apenas categoria que seja igual a repassada como parâmetro de ConCategoria().remover()
         emp = list(filter(lambda x: x.empresa == empresaRemove, f))
 
         if len(emp) > 0:
@@ -352,18 +359,20 @@ class ConFornecedor:
                     del f[i]
                     break
                 else:
-                    print('Este fornecedor não está cadastrado!') 
-                    return None         
+                    print('Este fornecedor não está cadastrado!')
+                    return None
             # modificando os dados no disco rígido
             with open('fornecedores.txt', 'w') as arq:
-                arq.writelines(i.empresa + " || " + i.cnpj + " || " + i.contato + " || " + i.categoria)  # Estoque recebe dado tipo Produto
+                # Estoque recebe dado tipo Produto
+                arq.writelines(i.empresa + " || " + i.cnpj +
+                               " || " + i.contato + " || " + i.categoria)
                 arq.writelines('\n')
             print('Fornecedor removido com sucesso!')
-            
+
     def visualizar(self):  # printando as categorias existentes
         fornecedores = DaoFornecedor.ler()
         if len(fornecedores) == 0:
-            print('Não ha fornecedores cadastrados!')
+            print('Não há fornecedores cadastrados!')
         else:
             for i in fornecedores:
                 print('========= FORNECEDORES =========')
@@ -371,13 +380,14 @@ class ConFornecedor:
                       f'Nome do fornecedor: {i.empresa}\n'
                       f'Contato: {i.contato}\n'
                       f'CNPJ: {i.cnpj}\n')
-                
+
+
 class ConCliente:
     def cadastrar(self, nome, contato, cpf, email, endereco):
         c = DaoPessoa.ler()
         # atributos que não podem se repetir entre os cadastros dos fornecedores
         cpfCadastrados = list(filter(lambda x: x.cpf == cpf, c))
-        
+
         if len(cpfCadastrados) > 0:
             print('Este CPF já está cadastrado!')
         else:
@@ -386,38 +396,133 @@ class ConCliente:
                 print('Cliente cadastrado com sucesso!')
             else:
                 print('Telefone e/ou CPF inválido(s)!')
-                
+
     def alterar(self, nomeOriginal, nomeAlterado, cpfAlterado, contatoAlterado, emailAlterado, enderecoAlterado):
         c = DaoPessoa.ler()
-        # atributos que não podem se repetir em Fornecedores() 
-        clientesCadastrados = list(filter(lambda x : x.nome == nomeOriginal, c))           
+        # atributos que não podem se repetir em Fornecedores()
+        clientesCadastrados = list(filter(lambda x: x.nome == nomeOriginal, c))
         # se o nome que deseja alterar estiver cadastrado
-        if len(clientesCadastrados) > 0 :
+        if len(clientesCadastrados) > 0:
             # verificar se cpf que deseja alterar já está cadstrado
-            cpfCadastrados = list(filter(lambda x : x.cpf == cpfAlterado, c))
+            cpfCadastrados = list(filter(lambda x: x.cpf == cpfAlterado, c))
             if len(cpfCadastrados) == 0:
-                 # modificando os dados na memória RAM
+                # modificando os dados na memória RAM
                 x = list(map(lambda x: Pessoa(nomeAlterado, contatoAlterado, cpfAlterado, emailAlterado, enderecoAlterado)
-                                                   if(x.nome == nomeOriginal) else(x), c))
+                             if(x.nome == nomeOriginal) else(x), c))
             else:
                 print('O CPF para o qual deseja alterar já está cadastrado!')
         else:
             print('O cliente que deseja alterar não está cadastrado!')
-            
+
         # modificando os dados no disco rígido
         with open('clientes.txt', 'w') as arq:
             for i in x:
-                arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " + i.email + " || " + i.endereco)  # Estoque recebe dado tipo Produto
+                arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
+                               i.email + " || " + i.endereco)
                 arq.writelines('\n')
             print('Cliente alterado com sucesso!')
-    
-            
-           
-        
-        
-                
-                
-            
-            
-            
-            
+
+    def remover(self, nome):  # remover cliente
+        c = DaoPessoa.ler()  # return list
+
+        # retorna para pes apenas cliente que seja igual a repassada como parâmetro de ConCliente().remover()
+        pes = list(filter(lambda x: x.nome == nome, c))
+
+        if len(pes) > 0:
+            for i in range(len(c)):
+                if c[i].nome == nome:  # removendo da memória RAM
+                    del c[i]
+                    break
+                else:
+                    print('Este cliente não está cadastrado!')
+                    return None
+            # modificando os dados no disco rígido
+            with open('clientes.txt', 'w') as arq:
+                for i in c:
+                    arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
+                                   i.email + " || " + i.endereco)
+                    arq.writelines('\n')
+                print('Cliente removido com sucesso!')
+
+
+class ConFuncionario:
+    def cadastrar(self, clt, nome, contato, cpf, email, endereco):
+        f = DaoFuncionario.ler()
+        # atributos que não podem se repetir entre os cadastros dos fornecedores
+        lista_cpf = list(filter(lambda x: x.cpf == cpf, f))
+        lista_clt = list(filter(lambda x: x.clt == clt, f))
+
+        if len(lista_cpf) > 0:
+            print('Este CPF ja esta cadastrado!')
+        elif len(lista_clt) > 0:
+            print('Esta CLT ja esta cadastrada!')
+        else:
+            if len(cpf) == 11 and (len(contato) <= 11 and len(contato) >= 10):
+                DaoFuncionario.salvar(Funcionario(
+                    clt, nome, contato, cpf, email, endereco))
+                print('Funcionario cadastrado com sucesso!')
+            else:
+                print('Telefone e/ou CPF inválido(s)!')
+
+    def alterar(self, nomeOriginal, nomeAlterado, cltAlterado, contatoAlterado, cpfAlterado, emailAlterado, enderecoAlterado):
+        f = DaoFuncionario.ler()
+        # atributos que não podem se repetir em Fornecedores()
+        func_cadastrado = list(
+            filter(lambda x: x.empresa == nomeOriginal, f))
+
+        # se o nome que deseja alterar estiver cadastrado
+        if len(func_cadastrado) > 0:
+            # verificar se cnpj que deseja alterar já está cadstrado
+            cltCadastrados = list(filter(lambda x: x.clt == cltAlterado, f))
+            if len(cltCadastrados) == 0:
+                # modificando os dados na memória RAM
+                x = list(map(lambda x: Funcionario(cltAlterado, nomeAlterado, contatoAlterado, cpfAlterado, emailAlterado, enderecoAlterado
+                                                   if(x.nome == nomeOriginal) else(x), f)))
+            else:
+                print('A CLT para o qual deseja alterar já está cadastrada!')
+        else:
+            print('O funcionário que deseja alterar não está cadastrado!')
+
+        # modificando os dados no disco rígido
+        with open('funcionarios.txt', 'w') as arq:
+            for i in x:
+                # Estoque recebe dado tipo Produto
+                arq.writelines(i.empresa + " || " + i.cnpj +
+                               " || " + i.contato + " || " + i.categoria)
+                arq.writelines('\n')
+            print('Funcionario alterado com sucesso!')
+
+    def remover(self, nome):  # remover cliente
+        c = DaoFuncionario.ler()  # return list
+
+        # retorna para pes apenas cliente que seja igual a repassada como parâmetro de ConCliente().remover()
+        pes = list(filter(lambda x: x.nome == nome, c))
+
+        if len(pes) > 0:
+            for i in range(len(c)):
+                if c[i].nome == nome:  # removendo da memória RAM
+                    del c[i]
+                    break
+                else:
+                    print('Este funcionario não está cadastrado!')
+                    return None
+            # modificando os dados no disco rígido
+            with open('funcionarios.txt', 'w') as arq:
+                for i in c:
+                    arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
+                                   i.email + " || " + i.endereco)
+                    arq.writelines('\n')
+                print('Funcionario removido com sucesso!')
+
+    def visualizar():
+        funcionario = Funcionario.ler()
+        if len(funcionario) == 0:
+            print('Lista de funcionarios esta vazia!')
+        for i in funcionario:
+            print('====== Funcionario ======')
+            print(f'Nome: {i.nome}\n'
+                  f'CLT: {i.clt}\n'
+                  f'Telefone: {i.contato}\n'
+                  f'CPF: {i.cpf}\n'
+                  f'E-mail: {i.email}\n'
+                  f'Endereço: {i.endereco}')
