@@ -2,3 +2,4 @@ Uva || 6 || Frutas || 90
 Banana || 8 || Frutas || 90
 Laranja || 3 || Frutas || 90
 Tangerina || 4 || Frutas || 80
+Presunto || 10 || Produto Sem Categoria || 100

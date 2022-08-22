@@ -44,6 +44,20 @@ class ConCategoria:
                     # reescrevendo no arquivo as categorias restantes em x
                     arq.writelines(i.categoria)
                     arq.writelines('\n')
+                    
+        estoque = DaoEstoque.ler()
+        # alterar dados = map()
+        estoque = list(map(lambda x: Estoque(Produtos(x.produto.nome, x.produto.preco, "Produto Sem Categoria"), x.quantidade) 
+                            if(x.produto.categoria == categoriaRemove ) else(x), estoque))  # memória RAM
+        
+        with open("estoque.txt", "w") as arq:
+            for i in estoque:
+                 arq.writelines(i.produto.nome + " || "
+                               + i.produto.preco + " || "
+                               + i.produto.categoria + " || "
+                               + str(i.quantidade))  
+                 arq.writelines('\n')
+            
 
     def alterar(self, original, alterada):  # alterando categoria
         x = DaoCategoria.ler()  # return list of categories
@@ -77,14 +91,14 @@ class ConCategoria:
             for i in categorias:
                 print(f'Categoria: {i.categoria}')
 
-#c = ConCategoria()
+c = ConCategoria()
 # c.cadastrar('Frios')
 # c.cadastrar('Verduras')
 # c.cadastrar('Frutas')
 # c.cadastrar('Laticinios')
 # c.cadastrar('Legumes')
 # c.cadastrar('Higiene')
-# c.remover('Higiene')
+c.remover('Frios')
 # c.alterar('Verduras','Carnes')
 # c.visualizar()
 
