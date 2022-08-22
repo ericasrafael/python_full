@@ -1,4 +1,3 @@
-Verduras
 Frutas
-Laticinios
+Verduras
 Legumes
