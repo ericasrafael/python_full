@@ -1,5 +1,0 @@
-Laranja || 3 || Frutas || Erica || Rafael || 10 || 20/07/2022
-Tangerina || 4 || Frutas || Erica || Rafael || 10 || 22/07/2022
-Tangerina || 4 || Frutas || Natalia || Joao || 10 || 22/07/2022
-Banana || 8 || Frutas || Erica || Rafael || 10 || 25/07/2022
-Uva || 6 || Frutas || Natalia || Rafael || 10 || 27/07/2022

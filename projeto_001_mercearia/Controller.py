@@ -71,18 +71,18 @@ class ConCategoria:
                 x = list(map(lambda x: Categoria(alterada) if(
                     x.categoria == original) else(x), x))
                 print('Categoria alterada com sucesso!')
-                
+
                 estoque = DaoEstoque.ler()
                 # alterar dados = map()
                 estoque = list(map(lambda x: Estoque(Produtos(x.produto.nome, x.produto.preco, alterada), x.quantidade)
-                           if(x.produto.categoria == original) else(x), estoque))  # memória RAM
+                                   if(x.produto.categoria == original) else(x), estoque))  # memória RAM
 
                 with open("estoque.txt", "w") as arq:
                     for i in estoque:
                         arq.writelines(i.produto.nome + " || "
-                                    + i.produto.preco + " || "
-                                    + i.produto.categoria + " || "
-                                    + str(i.quantidade))
+                                       + i.produto.preco + " || "
+                                       + i.produto.categoria + " || "
+                                       + str(i.quantidade))
                         arq.writelines('\n')
             else:
                 print("A categoria para qual deseja alterar já existe!")
@@ -104,7 +104,7 @@ class ConCategoria:
                 print(f'Categoria: {i.categoria}')
 
 
-c = ConCategoria()
+# c = ConCategoria()
 # c.cadastrar('Frios')
 # c.cadastrar('Verduras')
 # c.cadastrar('Frutas')
@@ -112,7 +112,7 @@ c = ConCategoria()
 # c.cadastrar('Legumes')
 # c.cadastrar('Higiene')
 # c.remover('Frios')
-c.alterar('Laticinios','Verduras')
+# c.alterar('Laticinios', 'Verduras')
 # c.visualizar()
 
 
@@ -285,8 +285,7 @@ class ConVenda:
                     {'produto': nome, 'quantidade': int(quantidade)})
 
         # ordenando pela quantidade de itens vendidos daquele produto
-        ordenado = sorted(
-            produtos, key=lambda x: x['quantidade'], reverse=True)
+        ordenado = sorted(produtos, key=lambda x: x['quantidade'], reverse=True)
 
         print('Produtos mais vendidos:')
         a = 1
@@ -470,6 +469,20 @@ class ConCliente:
                                    i.email + " || " + i.endereco)
                     arq.writelines('\n')
                 print('Cliente removido com sucesso!')
+                
+    def visualizar(self):
+        clientes = DaoPessoa.ler()
+        if len(clientes) == 0:
+            print("Lista de clientes vazia!")
+        
+        for i in clientes:
+            print("=========Cliente=========")
+            print(f"Nome: {i.nome}\n"
+                  f"Telefone: {i.contato}\n"
+                  f"CPF: {i.cpf}\n"
+                  f"Email: {i.email}\n"
+                  f"Endereço: {i.endereco}\n"            
+            )
 
 
 class ConFuncionario:
