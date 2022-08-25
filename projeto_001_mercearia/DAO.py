@@ -111,14 +111,11 @@ class DaoFornecedor:
     def ler(cls):
         with open('estoque.txt', 'r') as arq:
             cls.fornecedores = arq.readlines()
-        cls.fornecedores = list(map(lambda x: x.replace(
-            '\n', ''), cls.fornecedores))  # removendo os \n
-        cls.fornecedores = list(
-            map(lambda x: x.split(' || '), cls.fornecedores))
+        cls.fornecedores = list(map(lambda x: x.replace('\n', ''), cls.fornecedores))  # removendo os \n
+        cls.fornecedores = list(map(lambda x: x.split(' || '), cls.fornecedores))
         forn = list()
         for i in cls.fornecedores:
             forn.append(Fornecedor(i[0], i[1], i[2], i[3]))
-
         return forn
 
 
