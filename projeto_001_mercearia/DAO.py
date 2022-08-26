@@ -7,7 +7,6 @@ from Models import *
 
 # métodos de classe
 
-
 class DaoCategoria:
     @classmethod
     def salvar(cls, categoria):  # método para salvar novos dados em Categoria, recebe uma única string
@@ -19,24 +18,14 @@ class DaoCategoria:
     def ler(cls):
         with open('categoria.txt', 'r') as arq:
             cls.categoria = arq.readlines()  # return list wich /n in each string
-            print(cls.categoria)
 
-        cls.categoria = list(map(lambda x: x.replace(
-            '\n', ''), cls.categoria))  # removendo os \n
-        print(cls.categoria)
+        cls.categoria = list(map(lambda x: x.replace('\n', ''), cls.categoria))  # removendo os \n
 
         cat = list()
         for c in cls.categoria:
             # pois deve-se retornar a model (instância), cada i corresponde a uma string
             cat.append(Categoria(c))
         return cat
-
-
-# DaoCategoria.salvar("Frutas")
-# DaoCategoria.salvar("Legumes")
-# DaoCategoria.salvar("Higiene")
-# DaoCategoria.salvar("Verduras")
-# DaoCategoria.ler()
 
 
 class DaoVenda:
@@ -50,7 +39,6 @@ class DaoVenda:
                            + venda.cliente + " || "
                            + str(venda.quantidade_vendida) + " || "
                            + venda.data)  # vendas recebe dado tipo Produto
-
             arq.writelines('\n')
 
     @classmethod
@@ -65,11 +53,6 @@ class DaoVenda:
             vend.append(
                 Venda(Produtos(i[0], i[1], i[2]), i[3], i[4], i[5], i[6]))
         return vend
-
-#p = Produtos("Banana","3","Frutas")
-#v = Venda(p, "Erica", "Rafael" ,"8")
-#DaoVenda.salvar(v)
-#DaoVenda.ler()
 
 
 class DaoEstoque:
@@ -86,14 +69,12 @@ class DaoEstoque:
     def ler(cls):
         with open('estoque.txt', 'r') as arq:
             cls.estoque = arq.readlines()
-        cls.estoque = list(map(lambda x: x.replace(
-            '\n', ''), cls.estoque))  # removendo os \n
+        cls.estoque = list(map(lambda x: x.replace('\n', ''), cls.estoque))  # removendo os \n
         cls.estoque = list(map(lambda x: x.split(' || '), cls.estoque))
         est = list()
         if len(cls.estoque) > 0:
             for i in cls.estoque:
                 est.append(Estoque(Produtos(i[0], i[1], i[2]), int(i[3])))
-
         return est
 
 
@@ -134,15 +115,12 @@ class DaoPessoa:
     def ler(cls):
         with open('clientes.txt', 'r') as arq:
             cls.clientes = arq.readlines()
-        cls.clientes = list(map(lambda x: x.replace(
-            '\n', ''), cls.clientes))  # removendo os \n
+        cls.clientes = list(map(lambda x: x.replace('\n', ''), cls.clientes))  # removendo os \n
         cls.clientes = list(map(lambda x: x.split(' || '), cls.clientes))
         cli = list()
         for i in cls.clientes:
             cli.append(Pessoa(i[0], i[1], i[2], i[3], i[4]))
-
         return cli
-
 
 class DaoFuncionario:
     @classmethod
