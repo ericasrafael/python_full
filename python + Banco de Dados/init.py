@@ -3,7 +3,6 @@ import pymysql.cursors
 from pathlib import Path
 from time import sleep
 
-
 # criando conexão com banco de dados criado (phpMyAdmin)
 
 connection = pymysql.connect(
@@ -17,83 +16,110 @@ connection = pymysql.connect(
     cursorclass=pymysql.cursors.DictCursor
 )
 
+
 def create_table(tabela):
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"CREATE TABLE {tabela} (ID INT(4) AUTO_INCREMENT, PRIMARY KEY (ID))")
-            print(f"Tabela TESTE criada com sucesso!")
+            cursor.execute(
+                f"CREATE TABLE IF NOT EXISTS {tabela} (ID INT(4) AUTO_INCREMENT, PRIMARY KEY (ID))")
+            print(f"Tabela {tabela} criada com sucesso!")
     except Exception as e:
         error = str(repr(e))
         print(f"Error: {error}")
 
-# create_table("TESTE")
+# create_table("CADASTRO")
 
-# def func(tabela, **kwargs):
-#     # print(f"CREATE TABLE {tabela} (NOME VARCHAR(100), IDADE INT(4), EMAIL VARCHAR(100), ENDEREÇO VARCHAR(150))")
-#     for key, value in kwargs.items():
-#         print(f"CREATE TABLE {tabela} ({key} {value})")
-
-# func("TESTE", NOME="VARCHAR(100)",IDADE="INT(4)",EMAIL="VARCHAR(100),",ENDEREÇO="VARCHAR(150)")
 
 def insert_new_columns():
-    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\column_type_size.txt'), 'r') as arq:
-        result = arq.readlines()
-        tabela = result[0]
-        print(tabela)
-        result = list(map(lambda x: x.replace('\n', ''), result))
-        for i in result[1:]:
-                try:
-                     with connection.cursor() as cursor:
-                        cursor.execute(f"ALTER TABLE {tabela} ADD COLUMN {i}")
-                        sleep(1)
-                        print(f"COMANDO: [ ALTER TABLE TESTE ADD COLUMN {i} ] EFETUADO COM SUCESSO!")
-                except Exception as e:
-                    error = str(repr(e))
-                    print(f"Error: {error}")
+    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\column_type_size.txt'), 'r') as arq:
+        colunas = arq.readlines()
 
-insert_new_columns()
-            
+    tabela = colunas[0].replace("TABELA: ", "")
+    colunas = list(map(lambda x: x.replace('\n', ''), colunas[1:]))
 
-def drop_table(table):
+    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\new_columns.txt'), 'r') as arq:
+        colunas_novas = arq.readlines()
+
+    colunas_novas = list(map(lambda x: x.replace('\n', ''), colunas_novas))
+
+    set_colunas = set(colunas)
+    set_colunas_novas = set(colunas_novas)
+    diff = set_colunas.difference(set_colunas_novas)
+
+    if len(diff) > 0:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\new_columns.txt'), 'w') as arq:
+            padrao = list()
+            for coluna in colunas:
+                arq.writelines(coluna + "\n")
+                coluna = coluna.split(" ")[0]
+                padrao.append(coluna)
+            # pega todos os itens em um iterável e os une em uma string
+            padrao = ', '.join(padrao)
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\insert_values.txt'), 'r') as arq:
+            lines = arq.readlines()
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\insert_values.txt'), 'w') as arq:
+            for index, line in enumerate(lines):
+                if index == 1:
+                    arq.writelines(padrao+"\n")
+                else:
+                    arq.writelines(line)
+        try:
+            with connection.cursor() as cursor:
+                for i in diff:
+                    cursor.execute(f"ALTER TABLE {tabela} ADD COLUMN {i}")
+                    sleep(2)
+                    print(
+                        f"Comando: [ ALTER TABLE {tabela} ADD COLUMN {i} ] efetuado com sucesso!")
+        except Exception as e:
+            error = str(repr(e))
+            print(f"Error: {error}")
+
+# insert_new_columns()
+
+
+def drop_table(tabela):
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"DROP TABLE {table}")
-            print(f"Tabela {table} REMOVIDA com sucesso!")
+            cursor.execute(f"DROP TABLE {tabela}")
+            print(f"Tabela {tabela} removida com sucesso!")
     except Exception as e:
         print(f"Error: {e}")
 
-# drop_table("teste")
-
-# def insert_into(table):
-#     insert_name = input("Digite o nome as ser inserido: ")
-#     try:
-#         with connection.cursor() as cursor:
-#             cursor.execute(f"INSER INTO {table} VALUES({insert_name})")
-#             print(f"Tabela {table} REMOVIDA com sucesso!")
-#     except Exception as e:
-#         print(f"Error: {e}")
-
-# insert_into("teste")
+# drop_table("CADASTRO")
 
 
-def insert_into(table, insert_name):
-    try:
-        with connection.cursor() as cursor:
-            cursor.execute(f"INSERT INTO {table} VALUES ('{insert_name}')")
-            print(
-                f"Valor {insert_name} inserido com sucesso na tabela {table}!")
-    except Exception as e:
-        print(f"Error: {e}")
+def insert_into_values():
+    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\column_type_size.txt'), 'r') as arq:
+        lines = arq.readlines()
+    tabela = lines[0].replace("TABELA: ", "")
 
-# for name in names:
-#     insert_into("teste", name)
+    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\insert_values.txt'), 'r') as arq:
+        lines = arq.readlines()
+    colunas = lines[1]
+    valores = list(map(lambda x: x.replace("\n", ""), lines[2:]))
+    for valor in valores:
+        valor = valor.split(", ")
+        valor = str(valor)
+        valor = valor.replace("[", "").replace("]", "")
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute(
+                    f"INSERT INTO {tabela}({colunas}) VALUES ({valor})")
+                sleep(1)
+                print(f"Valor inserido com sucesso na tabela {tabela}!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+# insert_into_values()
+
 
 def select_data(table):
     try:
         with connection.cursor() as cursor:
             cursor.execute(f"SELECT * FROM {table}")
-            result = cursor.fetchall() # retornando todos os dados -> lista de dicionarios [{coluna:valor}]
-                                       # cada dicionario é uma linha do banco de dados
+            # retornando todos os dados -> lista de dicionarios [{coluna:valor}]
+            result = cursor.fetchall()
+            # cada dicionario é uma linha do banco de dados
             for i in result:
                 print(i["nome"])
     except Exception as e:
@@ -101,23 +127,24 @@ def select_data(table):
 
 # select_data("teste")
 
+
 def update_data(table, update_column, original_value, update_value):
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"UPDATE {table} SET {update_column} = '{update_value}' WHERE {update_column} = '{original_value}'")                              
+            cursor.execute(
+                f"UPDATE {table} SET {update_column} = '{update_value}' WHERE {update_column} = '{original_value}'")
     except Exception as e:
         print(f"Error: {e}")
 
 # update_data("teste", "nome", "Rafael", "Rafael Feitosa")
 
+
 def delete_data(table, column, value):
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"DELETE FROM {table} WHERE {column} = '{value}'")    
-            print("Remoção efetuada com sucesso!")                          
+            cursor.execute(f"DELETE FROM {table} WHERE {column} = '{value}'")
+            print("Remoção efetuada com sucesso!")
     except Exception as e:
         print(f"Error: {e}")
 
 # delete_data("teste", "nome", "Marcos Rafael")
-
-
