@@ -17,6 +17,9 @@ connection = pymysql.connect(
 )
 
 
+table = "CADASTRO"
+
+
 def create_table(tabela):
     try:
         with connection.cursor() as cursor:
@@ -27,7 +30,7 @@ def create_table(tabela):
         error = str(repr(e))
         print(f"Error: {error}")
 
-# create_table("CADASTRO")
+# create_table(table)
 
 
 def insert_new_columns():
@@ -85,7 +88,7 @@ def drop_table(tabela):
     except Exception as e:
         print(f"Error: {e}")
 
-# drop_table("CADASTRO")
+# drop_table(table)
 
 
 def insert_into_values():
@@ -113,30 +116,64 @@ def insert_into_values():
 # insert_into_values()
 
 
-def select_data(table):
+def select_data(tabela):
     try:
+        data = list()
         with connection.cursor() as cursor:
-            cursor.execute(f"SELECT * FROM {table}")
+            cursor.execute(f"SELECT * FROM {tabela}")
             # retornando todos os dados -> lista de dicionarios [{coluna:valor}]
-            result = cursor.fetchall()
+            results = cursor.fetchall()
             # cada dicionario é uma linha do banco de dados
-            for i in result:
-                print(i["nome"])
+            for result in results:
+                data.append(result)
     except Exception as e:
         print(f"Error: {e}")
+    print(data)  # lista de dicionários
 
-# select_data("teste")
+# select_data(table)
 
 
-def update_data(table, update_column, original_value, update_value):
+def update_value():
+
+    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\update_value.txt'), 'r') as arq:
+        lines = arq.readlines()
+
+    lines = list(map(lambda x: x.replace("\n", ""), lines))
+    tabela = lines[0].replace("TABELA: ", "")
+    coluna_atualizar = lines[1].replace("COLUNA A SER ATUALIZADA: ", "")
+    novo_valor = lines[2].replace("NOVO VALOR DA COLUNA: ","")
+    where = lines[3].replace("COLUNA BASE: ", "")
+    valor_where = lines[4].replace("VALOR DA COLUNA BASE: ", "")
+
     try:
         with connection.cursor() as cursor:
-            cursor.execute(
-                f"UPDATE {table} SET {update_column} = '{update_value}' WHERE {update_column} = '{original_value}'")
+            cursor.execute(f"UPDATE {tabela} SET {coluna_atualizar} = '{novo_valor}' WHERE {where} = '{valor_where}'")
+            print(f"UPDATE {tabela} SET {coluna_atualizar} = '{novo_valor}' WHERE {where} = '{valor_where}'")
     except Exception as e:
         print(f"Error: {e}")
 
-# update_data("teste", "nome", "Rafael", "Rafael Feitosa")
+# update_value()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 def delete_data(table, column, value):
@@ -147,4 +184,4 @@ def delete_data(table, column, value):
     except Exception as e:
         print(f"Error: {e}")
 
-# delete_data("teste", "nome", "Marcos Rafael")
+# delete_data(table, "nome", "Marcos Rafael")
