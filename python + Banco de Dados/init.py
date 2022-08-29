@@ -141,47 +141,36 @@ def update_value():
     lines = list(map(lambda x: x.replace("\n", ""), lines))
     tabela = lines[0].replace("TABELA: ", "")
     coluna_atualizar = lines[1].replace("COLUNA A SER ATUALIZADA: ", "")
-    novo_valor = lines[2].replace("NOVO VALOR DA COLUNA: ","")
+    novo_valor = lines[2].replace("NOVO VALOR DA COLUNA: ", "")
     where = lines[3].replace("COLUNA BASE: ", "")
     valor_where = lines[4].replace("VALOR DA COLUNA BASE: ", "")
 
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"UPDATE {tabela} SET {coluna_atualizar} = '{novo_valor}' WHERE {where} = '{valor_where}'")
-            print(f"UPDATE {tabela} SET {coluna_atualizar} = '{novo_valor}' WHERE {where} = '{valor_where}'")
+            cursor.execute(
+                f"UPDATE {tabela} SET {coluna_atualizar} = '{novo_valor}' WHERE {where} = '{valor_where}'")
+            print(
+                f"UPDATE {tabela} SET {coluna_atualizar} = '{novo_valor}' WHERE {where} = '{valor_where}'")
     except Exception as e:
         print(f"Error: {e}")
 
 # update_value()
 
 
+def delete_data():
+    with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos\update_value.txt'), 'r') as arq:
+        lines = arq.readlines()
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-def delete_data(table, column, value):
+    lines = list(map(lambda x: x.replace("\n", ""), lines))
+    tabela = lines[0].replace("TABELA: ", "")
+    coluna = lines[1].replace("COLUNA A SER ATUALIZADA: ", "")
+    valor = lines[2].replace("NOVO VALOR DA COLUNA: ", "")
+    
     try:
         with connection.cursor() as cursor:
-            cursor.execute(f"DELETE FROM {table} WHERE {column} = '{value}'")
-            print("Remoção efetuada com sucesso!")
+            cursor.execute(f"DELETE FROM {tabela} WHERE {coluna} = '{valor}'")
+            print(f"DELETE FROM {tabela} WHERE {coluna} = '{valor}'")
     except Exception as e:
         print(f"Error: {e}")
 
-# delete_data(table, "nome", "Marcos Rafael")
+# delete_data()

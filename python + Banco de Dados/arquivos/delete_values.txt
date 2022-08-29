@@ -1,0 +1,3 @@
+TABELA: CADASTRO
+COLUNA: EMAIL
+VALOR: joao.mendes@gmail.com
