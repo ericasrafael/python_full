@@ -106,8 +106,7 @@ def insert_into_values():
         valor = valor.replace("[", "").replace("]", "")
         try:
             with connection.cursor() as cursor:
-                cursor.execute(
-                    f"INSERT INTO {tabela}({colunas}) VALUES ({valor})")
+                cursor.execute(f"INSERT INTO {tabela}({colunas}) VALUES ({valor})")
                 sleep(1)
                 print(f"Valor inserido com sucesso na tabela {tabela}!")
         except Exception as e:

@@ -1,8 +1,2 @@
 ATENÇÃO: ESCREVA OS VALORES A SEREM INSERIDOS, NESTA ORDEM:
 NOME, IDADE, EMAIL, ENDERECO
-Erica Rafael, 21, erica@gamil.com, Rua Tv.Joaquim Mota 51 - Caucaia
-Marcos Rafael, 45, marcos@gamil.com, Rua Joaquim Mota 553 - Caucaia
-Laryssy Mendes, 27, laryssy@gamil.com, Rua Joaquim Mota 567 - Caucaia
-Victor Sales, 26, victor@gamil.com, Rua Joaquim Mota 567 - Caucaia
-Fernanda Celia, 54, fernanda@gamil.com, Rua Joaquim Mota 567 - Caucaia
-João Mendes, 62, joao@gamil.com, Rua Joaquim Mota 567 - Caucaia
