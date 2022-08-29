@@ -153,7 +153,7 @@ def update_value():
     except Exception as e:
         print(f"Error: {e}")
 
-# update_value()
+update_value()
 
 
 def delete_data():
