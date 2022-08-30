@@ -18,21 +18,17 @@ def Return_Session():
 
     return Session()
 
+
 session = Return_Session()
 
-consulta = session.query(Pessoa).all() # retorna uma lista onde cada posição é uma instância
+# query = session.query(Pessoa).filter(Pessoa.id == 4).all()
+# query[0].nome += " Rafael"
+# query[0].senha = "675463946"
+# query[0].usuario = "marcos123"
 
-for i in consulta:
-    print(i.usuario)
+query = session.query(Pessoa).filter(Pessoa.id == 4).all()  # lista com todas as instâncias correspondentes
+query = session.query(Pessoa).filter(Pessoa.id == 7).one()  # trás o próprio objeto, ou seja, a instância da classe Pessoa 
 
-consulta = session.query(Pessoa).filter(Pessoa.nome == 'Erica')
-for i in consulta:
-    print(i.usuario)
+session.delete(query) # não exclui listas, apenas os objetos
 
-consulta = session.query(Pessoa).filter_by(nome = 'Erica', usuario = "ericasrafael")
-for i in consulta:
-    print(i.id)
-
-consulta = session.query(Pessoa).filter(or_(Pessoa.nome == "Erica", Pessoa.usuario == "lucas")).all()
-for i in consulta:
-    print(i.id)
+session.commit()
