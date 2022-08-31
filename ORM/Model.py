@@ -10,7 +10,7 @@ PORT = 3306
 CONN = f"mysql+pymysql://{USUARIO}:{SENHA}@{HOST}:{PORT}/{BD}"
 # consexão com banco de dados
 engine = create_engine(CONN, echo=True)
-# criando sessão 
+# criando sessão
 Session = sessionmaker(bind=engine)
 session = Session()
 # importando códigos nativos de banco de dados vindos do sqlAlchemy
@@ -25,15 +25,18 @@ class Pessoa(Base):
     usuario = Column(String(20))
     senha = Column(String(10))
 
+
 class Categoria(Base):
     __tablename__ = "categoria"
     id = Column(Integer, primary_key=True)
     categoria = Column(String(50))
+
 
 class Produto(Base):
     __tablename__ = "produto"
     id = Column(Integer, primary_key=True)
     produto = Column(String(50))
     id_categoria = Column(Integer, ForeignKey("categoria.id"))
+
 
 Base.metadata.create_all(engine)
