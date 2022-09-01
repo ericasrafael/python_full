@@ -6,19 +6,26 @@
 from Models import *
 from pathlib import Path
 
+# endereço e arquivos
+PATH = str(Path(r"C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos"))
+CATEGORIA = r"\categoria.txt"
+CLIENTES = r"\clientes.txt"
+ESTOQUE = r"\estoque.txt"
+FORNECEDORES = r"\fornecedores.txt"
+FUNCIONARIOS = r"\funcionarios.txt"
+VENDAS = r"\venda.txt"
+
 # métodos de classe
-
-
 class DaoCategoria:
     @classmethod
     def salvar(cls, categoria):  # método para salvar novos dados em Categoria, recebe uma única string
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\categoria.txt'), 'a') as arq:
+        with open(PATH + CATEGORIA, 'a') as arq:
             arq.writelines(categoria)  # cada linha é uma nova categoria
             arq.writelines('\n')
 
     @classmethod
     def ler(cls):
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\categoria.txt'), 'r') as arq:
+        with open(PATH + CATEGORIA, 'r') as arq:
             cls.categoria = arq.readlines()  # return list wich /n in each string
 
         cls.categoria = list(map(lambda x: x.replace(
@@ -34,7 +41,7 @@ class DaoCategoria:
 class DaoVenda:
     @classmethod
     def salvar(cls, venda: Venda):  # recebe uma instância de Venda
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\venda.txt'), 'a') as arq:
+        with open(PATH + VENDAS, 'a') as arq:
             arq.writelines(venda.item_vendido.nome + " || "
                            + venda.item_vendido.preco + " || "
                            + venda.item_vendido.categoria + " || "
@@ -46,7 +53,7 @@ class DaoVenda:
 
     @classmethod
     def ler(cls):
-        with open('venda.txt', 'r') as arq:
+        with open(PATH + VENDAS, 'r') as arq:
             cls.venda = arq.readlines()
         cls.venda = list(map(lambda x: x.replace(
             '\n', ''), cls.venda))  # removendo os \n
@@ -61,7 +68,7 @@ class DaoVenda:
 class DaoEstoque:
     @classmethod
     def salvar(cls, produto: Produtos, quantidade):  # recebe uma instância de Produtos
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'a') as arq:
+        with open(PATH + ESTOQUE, 'a') as arq:
             arq.writelines(produto.nome + " || "
                            + produto.preco + " || "
                            + produto.categoria + " || "
@@ -70,7 +77,7 @@ class DaoEstoque:
 
     @classmethod
     def ler(cls):
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'r') as arq:
+        with open(PATH + ESTOQUE, 'r') as arq:
             cls.estoque = arq.readlines()
         cls.estoque = list(map(lambda x: x.replace(
             '\n', ''), cls.estoque))  # removendo os \n
@@ -85,7 +92,7 @@ class DaoEstoque:
 class DaoFornecedor:
     @classmethod
     def salvar(cls, fornecedor: Fornecedor):  # recebe uma instância de Produtos
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\fornecedores.txt'), 'a') as arq:
+        with open(PATH + FORNECEDORES, 'a') as arq:
             arq.writelines(fornecedor.empresa + " || "
                            + fornecedor.cnpj + " || "
                            + fornecedor.contato + " || "
@@ -94,7 +101,7 @@ class DaoFornecedor:
 
     @classmethod
     def ler(cls):
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'r') as arq:
+        with open(PATH + FORNECEDORES, 'r') as arq:
             cls.fornecedores = arq.readlines()
         cls.fornecedores = list(map(lambda x: x.replace(
             '\n', ''), cls.fornecedores))  # removendo os \n
@@ -109,7 +116,7 @@ class DaoFornecedor:
 class DaoPessoa:
     @classmethod
     def salvar(cls, pessoa: Pessoa):  # recebe uma instância de Produtos
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'a') as arq:
+        with open(PATH + CLIENTES, 'a') as arq:
             arq.writelines(pessoa.nome + " || "
                            + pessoa.contato + " || "
                            + pessoa.cpf + " || "
@@ -119,7 +126,7 @@ class DaoPessoa:
 
     @classmethod
     def ler(cls):
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'r') as arq:
+        with open(PATH + CLIENTES, 'r') as arq:
             cls.clientes = arq.readlines()
         cls.clientes = list(map(lambda x: x.replace(
             '\n', ''), cls.clientes))  # removendo os \n
@@ -133,7 +140,7 @@ class DaoPessoa:
 class DaoFuncionario:
     @classmethod
     def salvar(cls, funcionario: Funcionario):  # recebe uma instância de Produtos
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'a') as arq:
+        with open(PATH + FUNCIONARIOS, 'a') as arq:
             arq.writelines(funcionario.clt + " || "
                            + funcionario.nome + " || "
                            + funcionario.contato + " || "
@@ -144,7 +151,7 @@ class DaoFuncionario:
 
     @classmethod
     def ler(cls):
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'r') as arq:
+        with open(PATH + FUNCIONARIOS, 'r') as arq:
             cls.funcionarios = arq.readlines()
         cls.funcionarios = list(map(lambda x: x.replace(
             '\n', ''), cls.funcionarios))  # removendo os \n

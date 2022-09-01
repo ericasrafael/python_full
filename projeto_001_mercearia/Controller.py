@@ -6,6 +6,16 @@ from DAO import *
 from datetime import datetime
 from pathlib import Path
 
+# endereço e arquivos
+PATH = str(Path(
+    r"C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos"))
+CATEGORIA = r"\categoria.txt"
+CLIENTES = r"\clientes.txt"
+ESTOQUE = r"\estoque.txt"
+FORNECEDORES = r"\fornecedores.txt"
+FUNCIONARIOS = r"\funcionarios.txt"
+VENDAS = r"\venda.txt"
+
 # métodos de instância
 
 
@@ -40,7 +50,7 @@ class ConCategoria:
                     break
             print('Categoria(s) removida(s) com sucesso!')
         # TODO: colocar 'Sem Categoria' em estoque.txt
-            with open('categoria.txt', 'w') as arq:
+            with open(PATH + CATEGORIA, 'w') as arq:
                 for i in x:
                     # reescrevendo no arquivo as categorias restantes em x
                     arq.writelines(i.categoria)
@@ -51,7 +61,7 @@ class ConCategoria:
         estoque = list(map(lambda x: Estoque(Produtos(x.produto.nome, x.produto.preco, "Produto Sem Categoria"), x.quantidade)
                            if(x.produto.categoria == categoriaRemove) else(x), estoque))  # memória RAM
 
-        with open("estoque.txt", "w") as arq:
+        with open(PATH + ESTOQUE, "w") as arq:
             for i in estoque:
                 arq.writelines(i.produto.nome + " || "
                                + i.produto.preco + " || "
@@ -78,7 +88,7 @@ class ConCategoria:
                 estoque = list(map(lambda x: Estoque(Produtos(x.produto.nome, x.produto.preco, alterada), x.quantidade)
                                    if(x.produto.categoria == original) else(x), estoque))  # memória RAM
 
-                with open("estoque.txt", "w") as arq:
+                with open(PATH + ESTOQUE, "w") as arq:
                     for i in estoque:
                         arq.writelines(i.produto.nome + " || "
                                        + i.produto.preco + " || "
@@ -90,7 +100,7 @@ class ConCategoria:
         else:
             print('A categoria que deseja alterar não existe!')
         # TODO: alterar em estoque.txt relativamente
-        with open('categoria.txt', 'w') as arq:
+        with open(PATH + CATEGORIA, 'w') as arq:
             # reescrevendo no arquivo as alterações
             for i in x:
                 arq.writelines(i.categoria)
@@ -152,7 +162,7 @@ class ConEstoque:
         else:
             print('Este produto não existe no Estoque!')
 
-        with open('Estoque.txt', 'w') as arq:
+        with open(PATH + ESTOQUE, 'w') as arq:
             for i in e:
                 arq.writelines(i.produto.nome + " || "
                                + i.produto.preco + " || "
@@ -180,7 +190,7 @@ class ConEstoque:
             else:
                 print('O produto o qual deseja alterar não está cadastrado!')
 
-            with open('estoque.txt', 'w') as arq:
+            with open(PATH + ESTOQUE, 'w') as arq:
                 for i in e:
                     arq.writelines(i.produto.nome + " || "
                                    + i.produto.preco + " || "
@@ -245,11 +255,11 @@ class ConVenda:
             temp.append(Estoque(Produtos(i.produto.nome,
                         i.produto.preco, i.produto.categoria), i.quantidade))
 
-        arq = open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'w')
+        arq = open(PATH + ESTOQUE, 'w')
         arq.write('')  # limpando arquivo
 
         for i in temp:
-            with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'a') as arq:
+            with open(PATH + ESTOQUE, 'a') as arq:
                 arq.writelines(i.produto.nome + ' || ' + i.produto.preco +
                                ' || ' + i.produto.categoria + ' || ' + str(i.quantidade))
                 arq.writelines('\n')
@@ -286,7 +296,8 @@ class ConVenda:
                     {'produto': nome, 'quantidade': int(quantidade)})
 
         # ordenando pela quantidade de itens vendidos daquele produto
-        ordenado = sorted(produtos, key=lambda x: x['quantidade'], reverse=True)
+        ordenado = sorted(
+            produtos, key=lambda x: x['quantidade'], reverse=True)
 
         print('Produtos mais vendidos:')
         a = 1
@@ -367,7 +378,7 @@ class ConFornecedor:
             print('O fornecedor que deseja alterar não está cadastrado!')
 
         # modificando os dados no disco rígido
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\fornecedores.txt'), 'w') as arq:
+        with open(PATH + FORNECEDORES, 'w') as arq:
             for i in x:
                 # Estoque recebe dado tipo Produto
                 arq.writelines(i.empresa + " || " + i.cnpj +
@@ -389,7 +400,7 @@ class ConFornecedor:
                     print('Este fornecedor não está cadastrado!')
                     return None
             # modificando os dados no disco rígido
-            with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\fornecedores.txt'), 'w') as arq:
+            with open(PATH + FORNECEDORES, 'w') as arq:
                 # Estoque recebe dado tipo Produto
                 arq.writelines(i.empresa + " || " + i.cnpj +
                                " || " + i.contato + " || " + i.categoria)
@@ -442,7 +453,7 @@ class ConCliente:
             print('O cliente que deseja alterar não está cadastrado!')
 
         # modificando os dados no disco rígido
-        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'w') as arq:
+        with open(PATH + CLIENTES, 'w') as arq:
             for i in x:
                 arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
                                i.email + " || " + i.endereco)
@@ -464,26 +475,26 @@ class ConCliente:
                     print('Este cliente não está cadastrado!')
                     return None
             # modificando os dados no disco rígido
-            with open(Path('C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'w') as arq:
+            with open(PATH + CLIENTES, 'w') as arq:
                 for i in c:
                     arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
                                    i.email + " || " + i.endereco)
                     arq.writelines('\n')
                 print('Cliente removido com sucesso!')
-                
+
     def visualizar(self):
         clientes = DaoPessoa.ler()
         if len(clientes) == 0:
             print("Lista de clientes vazia!")
-        
+
         for i in clientes:
             print("=========Cliente=========")
             print(f"Nome: {i.nome}\n"
                   f"Telefone: {i.contato}\n"
                   f"CPF: {i.cpf}\n"
                   f"Email: {i.email}\n"
-                  f"Endereço: {i.endereco}\n"            
-            )
+                  f"Endereço: {i.endereco}\n"
+                  )
 
 
 class ConFuncionario:
@@ -525,7 +536,7 @@ class ConFuncionario:
             print('O funcionário que deseja alterar não está cadastrado!')
 
         # modificando os dados no disco rígido
-        with open(Path('C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'w') as arq:
+        with open(PATH + FUNCIONARIOS, 'w') as arq:
             for i in x:
                 # Estoque recebe dado tipo Produto
                 arq.writelines(i.empresa + " || " + i.cnpj +
@@ -548,7 +559,7 @@ class ConFuncionario:
                     print('Este funcionario não está cadastrado!')
                     return None
             # modificando os dados no disco rígido
-            with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'w') as arq:
+            with open(PATH + FUNCIONARIOS, 'w') as arq:
                 for i in c:
                     arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
                                    i.email + " || " + i.endereco)
