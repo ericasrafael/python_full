@@ -153,7 +153,7 @@ def update_value():
     except Exception as e:
         print(f"Error: {e}")
 
-update_value()
+# update_value()
 
 
 def delete_data():
@@ -173,3 +173,10 @@ def delete_data():
         print(f"Error: {e}")
 
 # delete_data()
+
+
+PATH = str(Path(r"C:\Users\Erica Rafael\Desktop\python full\python + Banco de Dados\arquivos"))
+file = r"\file.txt"
+text = "Ana Erica Santos Rafael\n21 anos\nEstudante de Ciencia de Dados"
+with open(PATH + file, "w") as f:
+    f.write(text)
