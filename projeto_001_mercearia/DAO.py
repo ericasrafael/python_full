@@ -4,22 +4,25 @@
 # 002
 
 from Models import *
+from pathlib import Path
 
 # métodos de classe
+
 
 class DaoCategoria:
     @classmethod
     def salvar(cls, categoria):  # método para salvar novos dados em Categoria, recebe uma única string
-        with open('categoria.txt', 'a') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\categoria.txt'), 'a') as arq:
             arq.writelines(categoria)  # cada linha é uma nova categoria
             arq.writelines('\n')
 
     @classmethod
     def ler(cls):
-        with open('categoria.txt', 'r') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\categoria.txt'), 'r') as arq:
             cls.categoria = arq.readlines()  # return list wich /n in each string
 
-        cls.categoria = list(map(lambda x: x.replace('\n', ''), cls.categoria))  # removendo os \n
+        cls.categoria = list(map(lambda x: x.replace(
+            '\n', ''), cls.categoria))  # removendo os \n
 
         cat = list()
         for c in cls.categoria:
@@ -31,7 +34,7 @@ class DaoCategoria:
 class DaoVenda:
     @classmethod
     def salvar(cls, venda: Venda):  # recebe uma instância de Venda
-        with open('venda.txt', 'a') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\venda.txt'), 'a') as arq:
             arq.writelines(venda.item_vendido.nome + " || "
                            + venda.item_vendido.preco + " || "
                            + venda.item_vendido.categoria + " || "
@@ -58,7 +61,7 @@ class DaoVenda:
 class DaoEstoque:
     @classmethod
     def salvar(cls, produto: Produtos, quantidade):  # recebe uma instância de Produtos
-        with open('estoque.txt', 'a') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'a') as arq:
             arq.writelines(produto.nome + " || "
                            + produto.preco + " || "
                            + produto.categoria + " || "
@@ -67,9 +70,10 @@ class DaoEstoque:
 
     @classmethod
     def ler(cls):
-        with open('estoque.txt', 'r') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'r') as arq:
             cls.estoque = arq.readlines()
-        cls.estoque = list(map(lambda x: x.replace('\n', ''), cls.estoque))  # removendo os \n
+        cls.estoque = list(map(lambda x: x.replace(
+            '\n', ''), cls.estoque))  # removendo os \n
         cls.estoque = list(map(lambda x: x.split(' || '), cls.estoque))
         est = list()
         if len(cls.estoque) > 0:
@@ -81,7 +85,7 @@ class DaoEstoque:
 class DaoFornecedor:
     @classmethod
     def salvar(cls, fornecedor: Fornecedor):  # recebe uma instância de Produtos
-        with open('fornecedores.txt', 'a') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\fornecedores.txt'), 'a') as arq:
             arq.writelines(fornecedor.empresa + " || "
                            + fornecedor.cnpj + " || "
                            + fornecedor.contato + " || "
@@ -90,10 +94,12 @@ class DaoFornecedor:
 
     @classmethod
     def ler(cls):
-        with open('estoque.txt', 'r') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'r') as arq:
             cls.fornecedores = arq.readlines()
-        cls.fornecedores = list(map(lambda x: x.replace('\n', ''), cls.fornecedores))  # removendo os \n
-        cls.fornecedores = list(map(lambda x: x.split(' || '), cls.fornecedores))
+        cls.fornecedores = list(map(lambda x: x.replace(
+            '\n', ''), cls.fornecedores))  # removendo os \n
+        cls.fornecedores = list(
+            map(lambda x: x.split(' || '), cls.fornecedores))
         forn = list()
         for i in cls.fornecedores:
             forn.append(Fornecedor(i[0], i[1], i[2], i[3]))
@@ -103,7 +109,7 @@ class DaoFornecedor:
 class DaoPessoa:
     @classmethod
     def salvar(cls, pessoa: Pessoa):  # recebe uma instância de Produtos
-        with open('clientes.txt', 'a') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'a') as arq:
             arq.writelines(pessoa.nome + " || "
                            + pessoa.contato + " || "
                            + pessoa.cpf + " || "
@@ -113,19 +119,21 @@ class DaoPessoa:
 
     @classmethod
     def ler(cls):
-        with open('clientes.txt', 'r') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'r') as arq:
             cls.clientes = arq.readlines()
-        cls.clientes = list(map(lambda x: x.replace('\n', ''), cls.clientes))  # removendo os \n
+        cls.clientes = list(map(lambda x: x.replace(
+            '\n', ''), cls.clientes))  # removendo os \n
         cls.clientes = list(map(lambda x: x.split(' || '), cls.clientes))
         cli = list()
         for i in cls.clientes:
             cli.append(Pessoa(i[0], i[1], i[2], i[3], i[4]))
         return cli
 
+
 class DaoFuncionario:
     @classmethod
     def salvar(cls, funcionario: Funcionario):  # recebe uma instância de Produtos
-        with open('funcionarios.txt', 'a') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'a') as arq:
             arq.writelines(funcionario.clt + " || "
                            + funcionario.nome + " || "
                            + funcionario.contato + " || "
@@ -136,7 +144,7 @@ class DaoFuncionario:
 
     @classmethod
     def ler(cls):
-        with open('funcionarios.txt', 'r') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'r') as arq:
             cls.funcionarios = arq.readlines()
         cls.funcionarios = list(map(lambda x: x.replace(
             '\n', ''), cls.funcionarios))  # removendo os \n

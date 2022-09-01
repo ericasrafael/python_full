@@ -4,6 +4,7 @@
 from Models import *
 from DAO import *
 from datetime import datetime
+from pathlib import Path
 
 # métodos de instância
 
@@ -244,11 +245,11 @@ class ConVenda:
             temp.append(Estoque(Produtos(i.produto.nome,
                         i.produto.preco, i.produto.categoria), i.quantidade))
 
-        arq = open('estoque.txt', 'w')
+        arq = open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'w')
         arq.write('')  # limpando arquivo
 
         for i in temp:
-            with open('estoque.txt', 'a') as arq:
+            with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\estoque.txt'), 'a') as arq:
                 arq.writelines(i.produto.nome + ' || ' + i.produto.preco +
                                ' || ' + i.produto.categoria + ' || ' + str(i.quantidade))
                 arq.writelines('\n')
@@ -366,7 +367,7 @@ class ConFornecedor:
             print('O fornecedor que deseja alterar não está cadastrado!')
 
         # modificando os dados no disco rígido
-        with open('fornecedores.txt', 'w') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\fornecedores.txt'), 'w') as arq:
             for i in x:
                 # Estoque recebe dado tipo Produto
                 arq.writelines(i.empresa + " || " + i.cnpj +
@@ -388,7 +389,7 @@ class ConFornecedor:
                     print('Este fornecedor não está cadastrado!')
                     return None
             # modificando os dados no disco rígido
-            with open('fornecedores.txt', 'w') as arq:
+            with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\fornecedores.txt'), 'w') as arq:
                 # Estoque recebe dado tipo Produto
                 arq.writelines(i.empresa + " || " + i.cnpj +
                                " || " + i.contato + " || " + i.categoria)
@@ -441,7 +442,7 @@ class ConCliente:
             print('O cliente que deseja alterar não está cadastrado!')
 
         # modificando os dados no disco rígido
-        with open('clientes.txt', 'w') as arq:
+        with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'w') as arq:
             for i in x:
                 arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
                                i.email + " || " + i.endereco)
@@ -463,7 +464,7 @@ class ConCliente:
                     print('Este cliente não está cadastrado!')
                     return None
             # modificando os dados no disco rígido
-            with open('clientes.txt', 'w') as arq:
+            with open(Path('C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\clientes.txt'), 'w') as arq:
                 for i in c:
                     arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
                                    i.email + " || " + i.endereco)
@@ -524,7 +525,7 @@ class ConFuncionario:
             print('O funcionário que deseja alterar não está cadastrado!')
 
         # modificando os dados no disco rígido
-        with open('funcionarios.txt', 'w') as arq:
+        with open(Path('C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'w') as arq:
             for i in x:
                 # Estoque recebe dado tipo Produto
                 arq.writelines(i.empresa + " || " + i.cnpj +
@@ -547,7 +548,7 @@ class ConFuncionario:
                     print('Este funcionario não está cadastrado!')
                     return None
             # modificando os dados no disco rígido
-            with open('funcionarios.txt', 'w') as arq:
+            with open(Path(r'C:\Users\Erica Rafael\Desktop\python full\projeto_001_mercearia\arquivos\funcionarios.txt'), 'w') as arq:
                 for i in c:
                     arq.writelines(i.nome + " || " + i.contato + " || " + i.cpf + " || " +
                                    i.email + " || " + i.endereco)
